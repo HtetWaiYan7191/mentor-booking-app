@@ -1,0 +1,29 @@
+Features and Workflows
+
+Sign Up and Email Confirmation:
+
+Users can create an account with their email and password.
+An email confirmation will be sent when they sign up to verify their email.
+Profile Creation:
+
+Users can create a profile with a profile picture, overview, bio, and a short CV.
+Social links will be managed separately.
+Role-based Dashboard:
+
+Upon signing up, if the user is a mentor, they'll be redirected to the mentor dashboard.
+If the user is a mentee, they'll be redirected to a page with a list of mentors.
+Reviews:
+
+Users can leave reviews for mentors.
+Booking Meetings:
+
+Users can book meetings with mentors by filling out a form with:
+Name and email (auto-filled).
+Booking type, status: default: 0, success => 1, fail => -1, booking time, and an introduction text.
+Email Notifications:
+
+After a user creates a booking, emails will be sent to both the user and the mentor with the booking details.
+After a user leaves a review, an email will be sent to the mentor to see the review.
+After mentor updating the booking status, an email will be sent to the mentee.
+
+After creating booking, mentor will have the access to change the booking status to success or reject.
