@@ -1,3 +1,3 @@
 class BookingType < ApplicationRecord
-    has_many  :bookings, optional: true
+    has_many  :bookings
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_12_042559) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_12_062917) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,7 +49,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_12_042559) do
     t.string "book_user_name"
     t.string "book_user_email"
     t.text "introduction_text"
-    t.integer "status"
+    t.integer "status", default: 0
     t.date "booking_date"
     t.string "session_name"
     t.time "booking_time"
@@ -65,6 +65,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_12_042559) do
     t.integer "rating"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "reviewer_id"
+    t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
@@ -79,9 +81,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_12_042559) do
 
   create_table "users", force: :cascade do |t|
     t.string "name"
-    t.integer "role"
+    t.integer "role", default: 0
     t.text "overview"
-    t.integer "view_count"
+    t.integer "view_count", default: 0
     t.string "bio"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -92,5 +94,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_12_042559) do
   add_foreign_key "bookings", "booking_types"
   add_foreign_key "bookings", "users"
   add_foreign_key "reviews", "users"
+  add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "social_links", "users"
 end
