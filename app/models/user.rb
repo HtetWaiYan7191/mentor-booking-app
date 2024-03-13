@@ -9,6 +9,7 @@ class User < ApplicationRecord
     has_many :mentor_bookings, foreign_key: 'mentor_id', class_name: 'Booking'
     has_many :mentee_bookings, foreign_key: 'mentee_id', class_name: 'Booking'
     has_many :booking_histories, through: :bookings
+    has_many :booked_times, foreign_key: 'mentor_id', class_name: 'BookedTime'
 
     validates :name, presence: true, allow_blank: false
     validate :valid_role

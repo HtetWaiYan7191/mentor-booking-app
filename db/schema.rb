@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_13_025014) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_13_035055) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_13_025014) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
+
+  create_table "booked_times", force: :cascade do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "mentor_id"
   end
 
   create_table "booking_histories", force: :cascade do |t|
@@ -48,12 +56,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_13_025014) do
     t.bigint "mentor_id", null: false
     t.text "introduction_text"
     t.integer "booking_status", default: 0
-    t.date "booking_date"
     t.string "session_name"
-    t.time "booking_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "mentee_id"
+    t.datetime "booking_datetime"
     t.index ["booking_type_id"], name: "index_bookings_on_booking_type_id"
     t.index ["mentor_id"], name: "index_bookings_on_mentor_id"
   end
@@ -89,6 +96,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_13_025014) do
   end
 
   add_foreign_key "addresses", "users"
+  add_foreign_key "booked_times", "users", column: "mentor_id"
   add_foreign_key "booking_histories", "bookings"
   add_foreign_key "bookings", "booking_types"
   add_foreign_key "bookings", "users", column: "mentor_id"

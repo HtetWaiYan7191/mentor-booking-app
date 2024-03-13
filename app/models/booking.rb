@@ -5,20 +5,31 @@ class Booking < ApplicationRecord
   belongs_to :mentee, class_name: 'User', foreign_key: 'mentee_id'
   has_one :booking_history, dependent: :destroy
   validates :introduction_text, presence: true, length: { in: 10..500 }
-  validates :booking_date, presence: true
-  validates :booking_time, presence: true
-  validate :date_cannot_be_in_the_past
-  
-  # after_create :create_booking_history
+  validates :booking_datetime, presence: true
+  validate :cannot_book_past
+  validate :booking_time_available
+  after_create :create_booked_time
   private 
   
-  def date_cannot_be_in_the_past
-    puts Date.today
-    puts booking_date
-    if booking_date.present? && booking_date < Date.today
-      errors.add(:booking_date, "can't be in the past")
+  def cannot_book_past
+    if booking_datetime.present? && booking_datetime < DateTime.current #datetime.current is utc zone and datetime.now is local time zone 
+      errors.add(:booking_datetime, "can't be in the past")
     end
   end
+  
+  def create_booked_time
+    BookedTime.create(start_time: self.booking_datetime, end_time: self.booking_datetime + self.booking_type.minutes * 60, mentor_id: self.mentor_id)
+  end
+
+  def booking_time_available
+    mentor = User.find(self.mentor_id)
+    conflicting_booked_times = mentor.booked_times.where('(start_time <= ? AND end_time >= ?) OR (start_time <= ? AND end_time >= ?)', self.booking_datetime, self.booking_datetime, self.booking_datetime + self.booking_type.minutes, self.booking_datetime + self.booking_type.minutes)
+  
+    if conflicting_booked_times.exists?
+      errors.add(:booking_datetime, 'Mentor is not available at that time')
+    end
+  end
+  
 
   # def create_booking_history
   #   self.build_booking_history(session_name: self.session_name, mentor_name: self.user.name, mentee_name: self.book_user_name, booking_date: self.booking_date, booking_time: self.booking_time)
