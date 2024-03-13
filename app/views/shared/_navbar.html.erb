@@ -1,0 +1,12 @@
+<nav class=" flex items-center justify-between px-6 py-4 border-b shadow-sm">
+    <%= link_to unauthenticated_root_path do %>
+        <h2 class="logo-title font-semibold text-2xl italic">Find Your Mentors</h2>
+    <% end %>
+
+    <div class="search-and-user">
+        <%= form_with url: "/search", method: :get do |f|%>
+            <%= f.text_field :query, class: 'input', placeholder: 'search mentors' %>
+            <%= f.submit "Search Mentors", class: 'btn-primary' %>
+        <% end %>
+    </div>
+</nav>

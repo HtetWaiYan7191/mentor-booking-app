@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'profiles/index'
   root "pages#home", as: :unauthenticated_root
 
   scope 'mentor/' do
