@@ -1,28 +1,29 @@
 class Booking < ApplicationRecord
   
   belongs_to :booking_type, optional: true
-  belongs_to :user
-  has_one :booking_history
-
-  validates :book_user_name, presence: true, length: { maximum: 50 }
+  belongs_to :mentor, class_name: 'User', foreign_key: 'mentor_id'
+  belongs_to :mentee, class_name: 'User', foreign_key: 'mentee_id'
+  has_one :booking_history, dependent: :destroy
   validates :introduction_text, presence: true, length: { in: 10..500 }
   validates :booking_date, presence: true
   validates :booking_time, presence: true
   validate :date_cannot_be_in_the_past
-  validate :time_cannot_be_in_the_past
-   
+  
+  # after_create :create_booking_history
   private 
   
   def date_cannot_be_in_the_past
+    puts Date.today
+    puts booking_date
     if booking_date.present? && booking_date < Date.today
       errors.add(:booking_date, "can't be in the past")
     end
   end
 
-  def time_cannot_be_in_the_past
-    puts "current time #{Time.current}"
-    puts "booking time #{booking_time}"
-    errors.add(:booking_time, "time cannot be in the past") if booking_time.present? && booking_time.strftime("%H:%M:%S") < Time.current.strftime("%H:%M:%S")
-  end
+  # def create_booking_history
+  #   self.build_booking_history(session_name: self.session_name, mentor_name: self.user.name, mentee_name: self.book_user_name, booking_date: self.booking_date, booking_time: self.booking_time)
+  # end
+
+ 
   
 end

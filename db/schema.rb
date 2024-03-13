@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_12_084207) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_13_025014) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,9 +45,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_12_084207) do
 
   create_table "bookings", force: :cascade do |t|
     t.bigint "booking_type_id", null: false
-    t.bigint "user_id", null: false
-    t.string "book_user_name"
-    t.string "book_user_email"
+    t.bigint "mentor_id", null: false
     t.text "introduction_text"
     t.integer "booking_status", default: 0
     t.date "booking_date"
@@ -55,8 +53,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_12_084207) do
     t.time "booking_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "mentee_id"
     t.index ["booking_type_id"], name: "index_bookings_on_booking_type_id"
-    t.index ["user_id"], name: "index_bookings_on_user_id"
+    t.index ["mentor_id"], name: "index_bookings_on_mentor_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -92,7 +91,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_12_084207) do
   add_foreign_key "addresses", "users"
   add_foreign_key "booking_histories", "bookings"
   add_foreign_key "bookings", "booking_types"
-  add_foreign_key "bookings", "users"
+  add_foreign_key "bookings", "users", column: "mentor_id"
   add_foreign_key "reviews", "users"
   add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "social_links", "users"

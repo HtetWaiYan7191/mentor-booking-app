@@ -6,7 +6,8 @@ class User < ApplicationRecord
     has_many :social_links
     has_many :reviews, foreign_key: 'user_id', class_name: 'Review'
     has_many :given_reviews, foreign_key: 'reviewer_id', class_name: 'Review'
-    has_many :bookings
+    has_many :mentor_bookings, foreign_key: 'mentor_id', class_name: 'Booking'
+    has_many :mentee_bookings, foreign_key: 'mentee_id', class_name: 'Booking'
     has_many :booking_histories, through: :bookings
 
     validates :name, presence: true, allow_blank: false
