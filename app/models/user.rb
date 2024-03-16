@@ -1,10 +1,10 @@
 class User < ApplicationRecord
 
-    enum role: {mentee: 0, mentor: 1}
+    # enum role: {mentor: 0, mentee: 1}
 
-    has_one :address, dependent: :destory
+    has_one :address, dependent: :destroy
     accepts_nested_attributes_for :address
-    has_many :social_links, dependent: :destory
+    has_many :social_links, dependent: :destroy
     accepts_nested_attributes_for :social_links
     has_many :reviews, foreign_key: 'user_id', class_name: 'Review'
     has_many :given_reviews, foreign_key: 'reviewer_id', class_name: 'Review'
@@ -14,7 +14,6 @@ class User < ApplicationRecord
     has_many :booked_times, foreign_key: 'mentor_id', class_name: 'BookedTime'
 
     validates :name, presence: true, allow_blank: false
-    validate :valid_role
     validates :overview, length: {in: 10..1000}, allow_blank: false
     validates :bio, length: {in: 6..500}, allow_nil: true
     validates :view_count, numericality: {only_integer: true}
@@ -23,11 +22,11 @@ class User < ApplicationRecord
     after_create :add_default_address
     private
     
-    def valid_role
-        unless role.in?(User.roles.keys)
-            errors.add(:role, 'must be either mentee or mentor')
-        end
-    end
+    # def valid_role
+    #     unless role.in?(User.roles.keys)
+    #         errors.add(:role, 'must be either mentee or mentor')
+    #     end
+    # end
     def add_default_social_links
         default_social_links = [
           { icon: 'facebook', link: 'https://www.facebook.com/yourpage' },
@@ -42,6 +41,11 @@ class User < ApplicationRecord
     end
 
     def add_default_address
-        self.address.create(user_id: self.id, country_name: nil, city_name: nil)
-    end
+        # Check if the associated address exists
+        unless address
+          # Create a new address for the user
+          build_address(country_name: nil, city_name: nil)
+          save
+        end
+      end
 end
