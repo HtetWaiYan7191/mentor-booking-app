@@ -1,6 +1,6 @@
-<section class="side-bar w-[20%] border-r-2 bg-gray-200 shadow-sm fixed h-full">
-    <h2 class="font-semibold text-lg text-center">Side bar</h2>
-    <ul class="side-bar-container flex flex-col items-center">
-        <%= link_to "Profile Page", profiles_index_path%>
+<section class="side-bar w-[20%] border-r-2 bg-gray-200 shadow-sm h-[100%] fixed top-0 left-0 overflow-x-hidden pt-20">
+    <h2 class="text-lg font-semibold text-center">Side bar</h2>
+    <ul class="flex flex-col items-center side-bar-container">
+        <%= link_to "Profile Page", edit_profile_path(id: 1)%>
     </ul>
 </section>
