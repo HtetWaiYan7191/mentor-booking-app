@@ -1,0 +1,70 @@
+<%= render "layouts/home_page_layout" do%>
+  <h1 class="text-4xl font-bold text-black">Profile Page</h1>
+  <section class="mt-8 home-profile">
+    <h3>Customize Your Profile <%= @profile.name %> </h3>
+    <div class="mt-10 form-container">
+      <%= form_with( model: @profile, url: profile_path(@profile), method: "patch") do |form| %>
+        <div class="flex items-center form-box gap-x-6 max-w-[60%]">
+              <%= form.label :name, "Name" , class:'min-w-[130px]'%>
+              <%= form.text_field :name, class:'input mx-0 flex-1   ring-0 focus:bg-transparent', placeholder: 'Name' %>
+        </div>
+
+        <div class="flex items-center mt-8 gap-x-6 form-box">
+              <%= form.label :role, "Role" , class:'min-w-[130px]'%>
+              <%= form.select :role, [["Mentee", 'mentee'], ["Mentor", "mentor"]], selected: "mentee", class:' rounded-full ' %>
+        </div>
+
+        <div class="flex items-center mt-8 gap-x-6 form-box max-w-[60%]">
+              <%= form.label :bio, "Bio" , class:'min-w-[130px]'%>
+              <%= form.text_field :bio, class: 'input mx-0 flex-1   ring-0 focus:bg-transparent'  %>
+        </div>
+
+        <div class="flex items-start mt-8 gap-x-6 form-box max-w-[60%]">
+              <%= form.label :overview, "About Me" , class:'min-w-[130px]'%>
+              <%= form.text_area :overview, class: 'rounded-md mx-0 flex-1  ring-0 focus:bg-transparent'  %>
+        </div>
+
+        <div class="mt-10 address-container">
+          <h3>Address</h3>
+                <div class="flex items-center mt-8 gap-x-6 form-box max-w-[60%]">
+                      <%= form.label :address, "Country Name" , class:'min-w-[130px]'%>
+                      <%= form.fields_for :address, @profile.address do |address_form|%>
+                        <%= address_form.text_field :country_name, class: 'rounded-full'%>
+                      <% end %>
+                </div>
+
+                <div class="flex items-center mt-8 gap-x-6 form-box max-w-[60%]">
+                      <%= form.label :address, "City Name" , class:'min-w-[130px]'%>
+                      <%= form.fields_for :address, @profile.address do |address_form|%>
+                        <%= address_form.text_field :city_name, class: 'rounded-full'%>
+                      <% end %>
+                </div>
+        </div>
+
+        <div class="mt-10 social-link-container">
+                <h3>Social Links</h3>
+                
+                <div class="flex items-center mt-8 gap-x-6 form-box max-w-[60%]">
+                    <% unless @profile.social_links.empty? %>
+                    <div class="flex flex-col gap-y-4">
+                            <% @profile.social_links.each do |social_link| %>
+                                <%= form.fields_for :social_links, social_link do |social_form|%>
+                                    <div class="flex gap-x-6">
+                                        <%= social_form.select :icon, [["Facebook", "facebook"], ["Linkedin", "linkedin"], ["Instagram", "instagram"], ["Github", "github"], ["Medium", "medium"]], selected: social_link.icon, class: 'rounded-full'%>
+                                        <%= social_form.text_field :link, class: 'rounded-full'%>
+                                    </div>
+                                <% end %>
+                            <% end %>
+                    </div>
+                    <% end %>
+                </div>
+
+        </div>
+            <div class="py-6 submit-btn">
+                <%= form.submit "Save", class: 'btn-primary py-1 px-3 cursor-pointer'%>
+            </div>
+      <% end %>
+    </div>
+   
+  </section>
+<% end %>
