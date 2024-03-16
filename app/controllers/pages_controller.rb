@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def home
-    @user = User.first
+    @mentors = User.all.where(role: 'mentor').order(view_count: :desc)
   end
   
 
