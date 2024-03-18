@@ -10,8 +10,11 @@ class ProfilesController < ApplicationController
   def new 
   end
 
+  def create
+  end
+
   def edit 
-    
+    @social_link = SocialLink.new
   end
 
   def update
