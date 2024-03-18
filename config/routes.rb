@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  resources :profiles
+  get 'social_links/new'
+  get 'social_links/create'
+  get 'social_links/destroy'
+  resources :profiles do
+    resources :social_links
+  end
   root "pages#home", as: :unauthenticated_root
 
   scope 'mentor/' do

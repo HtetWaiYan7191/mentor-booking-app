@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "font-awesome";
 
 
 
@@ -10,11 +11,19 @@
   }
 
   .input {
-    @apply rounded-full mx-4
+    @apply rounded-full mx-4;
   }
 
   .home-profile h3 {
-   @apply py-2 text-2xl font-semibold text-gray-800 border-b-2 border-stone-300 w-fit
+   @apply py-2 text-2xl font-semibold text-gray-800 border-b-2 border-stone-300 w-fit;
+  }
+
+  .notice {
+    @apply bg-green-500 text-white px-3 py-1 w-fit;
+  }
+
+  .alert {
+    @apply bg-red-500 text-white px-3 py-1 w-fit;
   }
 }
 

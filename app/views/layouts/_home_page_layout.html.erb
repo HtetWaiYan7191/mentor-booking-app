@@ -1,6 +1,7 @@
 <section class="home-page-layout">
     <%= render "/layouts/sidebar" %>
     <main class="content-layout w-[80%] ml-auto ps-10 pt-32">
+        <%= render "/shared/flash_message"%>
         <%= yield %>
     </main>
 </section>
