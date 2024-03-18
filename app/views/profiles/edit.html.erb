@@ -41,56 +41,61 @@
                 </div>
         </div>
 
-        <div class="mt-10 social-link-container">
+        <div class="mt-10 social-link-container ">
                 <h3>Social Links</h3>
-                <div class="flex items-center mt-8 gap-x-6 form-box max-w-[60%]">
+                <div class="flex flex-col gap-y-6 mt-8  form-box max-w-[60%] ">
                     <% unless @profile.social_links.empty? %>
-                        <div class="flex flex-col gap-y-4">
-                              <% @profile.social_links.each do |social|%>
-                                    <div class="flex w-[600px] items-center"  data-controller="edit" >
-                                    <%= form.fields_for :social_links, @profile.social_links do |social_link_form| %>
+                        <div class=""  data-controller="edit" >
+                              <% @profile.social_links.each_with_index do |social, index|%>
+                                    <div class="flex items-center my-4">
                                           <span class="btn-primary text-center w-[150px] mr-[2rem] "><%= social.icon %></span>
-                                          <%= social_link_form.text_field :link, data: { edit_target: "socialLink" }, readonly: true, class: "text-gray-500 w-[200px] mr-[2rem] py-1 px-3 focus:outline-none", value: social.link %>
-                                                <ul class="icon-container gap-x-4 flex">
-                                                      <li>
-                                                            <%= link_to profile_social_link_path(profile_id: social.user.id, id: social.id), data: {turbo_method: :delete} do%> 
-                                                            <i class='fas fa-trash-can text-red-500 hover:text-red-400 text-lg text-center'></i>
+                                          <input data-edit-target="socialLink" readonly="readonly" class="text-gray-500 border w-[200px] mr-[2rem] py-1 px-3 focus:outline-none" data-edit-target="socialLink" type="text" value="<%= social.link %>" name="user[social_links_attributes][<%=index%>][link]" id="user_social_links_attributes_0_link">
+                                          <%# <input data-edit-target="socialLink" class="text-gray-500 border w-[200px] mr-[2rem] py-1 px-3 focus:outline-none" value=<%= social.link%> 
+                                          <ul class="icon-container gap-x-4 flex">
+                                                                  <li>
+                                                                        <%= link_to profile_social_link_path(profile_id: social.user.id, id: social.id), data: {turbo_method: :delete} do%> 
+                                                                        <i class='fas fa-trash-can text-red-500 hover:text-red-400 text-lg text-center'></i>
+                                                                        <% end %>
+
+                                                                  </li>
+                                                                  <li data-edit-target="editBtn" >
+                                                                        <i class='fas fa-pen text-lg text-center cursor-pointer' data-index=<%=index%>  data-action="click->edit#makeInputWriteable"></i>
+                                                                  </li>
+                                                            <%= form.fields_for :social_links, @profile.social_links do |social_link_form| %>
+                                                                  <button type="submit" data-edit-target="updateBtn" data-index=<%=index %> class="update-button hidden">
+                                                                        <i class='fas fa-check text-green-500 text-lg text-center cursor-pointer'></i>
+                                                                  </button>
                                                             <% end %>
-                                                      </li>
-                                                      <li data-edit-target="editBtn">
-                                                            <i class='fas fa-pen text-lg text-center cursor-pointer' data-action="click->edit#makeInputWriteable"></i>
-                                                      </li>
-                                                     <%= form_with(url: profile_social_link_path(profile_id: social.user.id, id: social.id), method: :patch) do |form| %>
-                                                            <button type="submit" data-edit-target="updateBtn" class="update-button hidden">
-                                                                  <i class='fas fa-check text-green-500 text-lg text-center cursor-pointer'></i>
-                                                            </button>
-                                                      <% end %>
-                                                </ul>
-                                          <% end %>
+                                          </ul>
                                     </div>
-                              <% end %>
-                        <div>
+                                                  <% end %>
+
+                        </div>
+
                         <% else %>
                               <span>
                               No social link added 
                               </span>
                         <% end %>
                   </div>
-                </div>
-             </div>
+            </div>
+                  <%# </div> form container %>
             <div class="py-6 submit-btn">
                 <%= form.submit "Save", class: 'btn-primary py-1 px-3 cursor-pointer'%>
             </div>
+      </div>
+                     
+    </div>
+      <div>
       <% end %>
-                  <h3 class="font-semibold mb-4">Add Social Link</h3>
+      <h3 class="font-semibold mb-4">Add Social Link</h3>
                   <%= form_with(model: @social_link, url: profile_social_links_path(profile_id: @profile.id), method: 'post') do |social_link_form| %>
                         <div class="flex gap-x-6">
                               <%= social_link_form.select :icon, [["Facebook", "facebook"], ["Linkedin", "linkedin"], ["Instagram", "instagram"], ["Github", "github"], ["Medium", "medium"]], class: 'rounded-full'%>
                               <%= social_link_form.text_field :link, class: 'rounded-full'%>
                         </div>
                         <%= social_link_form.submit "Add Link", class: 'btn-primary cursor-pointer mt-6'%>
-                  <% end %>         
-    </div>
-   
+                  <% end %>    
+      </div>
   </section>
 <% end %>
