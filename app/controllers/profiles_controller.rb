@@ -18,7 +18,7 @@ class ProfilesController < ApplicationController
   end
 
   def update
-    puts profile_params
+    puts 'profile update'
     if(@profile.update(profile_params))
       redirect_to unauthenticated_root_path, notice: 'Profile was successfully updated'      
     else

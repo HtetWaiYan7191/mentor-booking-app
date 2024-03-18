@@ -11,7 +11,7 @@
 
         <div class="flex items-center mt-8 gap-x-6 form-box">
               <%= form.label :role, "Role" , class:'min-w-[130px]'%>
-              <%= form.select :role, [["Mentee", 0], ["Mentor",1]], selected: 0, class:' rounded-full ' %>
+              <%= form.select :role, [["Mentee", 0], ["Mentor",1]], selected: @profile.role, class:' rounded-full ' %>
         </div>
 
         <div class="flex items-center mt-8 gap-x-6 form-box max-w-[60%]">
@@ -45,17 +45,22 @@
                 <h3>Social Links</h3>
                 <div class="flex items-center mt-8 gap-x-6 form-box max-w-[60%]">
                     <% unless @profile.social_links.empty? %>
-                        <ul class="flex flex-col gap-y-4">
+                        <div class="flex flex-col gap-y-4">
                               <% @profile.social_links.each do |social|%>
-                                    <li class="flex w-[600px]items-center ">
-                                          <span class="btn-primary text-center w-[150px] mr-[3rem]"><%= social.icon %></span>
-                                          <span class="ml-auto flex-1 text-gray-500"><%= social.link %></span>
-                                          <% link_to do%>
-                                                <i class="fas fa-trash-can"></i>
-                                          <% end %>
-                                    </li>
+                                    <div class="flex w-[600px] items-center ">
+                                          <span class="btn-primary text-center w-[150px] mr-[2rem] "><%= social.icon %></span>
+                                          <span class=" text-gray-500  w-[200px] mr-[2rem] "><%= social.link %></span>
+                                                <ul class="icon-container gap-x-4">
+                                                      <li>
+                                                            <%= link_to profile_social_link_path(profile_id: social.user.id, id: social.id), data: {turbo_method: :delete} do%> 
+                                                            <i class='fas fa-trash-can text-red-500 hover:text-red-400 text-lg text-center'></i>
+                                                            <% end %>
+                                                      </li>
+                                                </ul>
+                                          
+                                    </div>
                               <% end %>
-                        <ul>
+                        <div>
                         <% else %>
                               <span>
                               No social link added 
@@ -68,13 +73,13 @@
                 <%= form.submit "Save", class: 'btn-primary py-1 px-3 cursor-pointer'%>
             </div>
       <% end %>
-                  <h2 class="font-semibold">Add Social Link</h2>
+                  <h3 class="font-semibold mb-4">Add Social Link</h3>
                   <%= form_with(model: @social_link, url: profile_social_links_path(profile_id: @profile.id), method: 'post') do |social_link_form| %>
                         <div class="flex gap-x-6">
                               <%= social_link_form.select :icon, [["Facebook", "facebook"], ["Linkedin", "linkedin"], ["Instagram", "instagram"], ["Github", "github"], ["Medium", "medium"]], class: 'rounded-full'%>
                               <%= social_link_form.text_field :link, class: 'rounded-full'%>
                         </div>
-                        <%= social_link_form.submit "Add Link", class: 'btn-primary cursor-pointer'%>
+                        <%= social_link_form.submit "Add Link", class: 'btn-primary cursor-pointer mt-6'%>
                   <% end %>         
     </div>
    

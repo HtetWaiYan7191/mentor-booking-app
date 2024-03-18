@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  get 'social_links/new'
-  get 'social_links/create'
-  get 'social_links/destroy'
   resources :profiles do
     resources :social_links
   end

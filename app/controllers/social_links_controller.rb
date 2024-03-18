@@ -17,6 +17,11 @@ class SocialLinksController < ApplicationController
   end
 
   def destroy
+    if @social_link.destroy
+      redirect_to edit_profile_path(@social_link.user.id), notice: "#{@social_link.link} was removed successfully "
+    else 
+      redirect_to edit_profile_path(@social_link.user.id), alert: 'Social link cannot be removed. '
+    end
   end
   private
   def set_social_link
