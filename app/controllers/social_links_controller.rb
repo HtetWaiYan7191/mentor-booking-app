@@ -1,5 +1,5 @@
 class SocialLinksController < ApplicationController
-  before_action :set_social_link, only: [:destroy]
+  before_action :set_social_link, only: [:destroy, :update]
   def new
   end
 
@@ -15,6 +15,19 @@ class SocialLinksController < ApplicationController
       redirect_to edit_profile_path(User.last.id)
     end
   end
+
+  def edit
+
+  end
+
+  def update
+    if @social_link.update(social_link_params)
+      redirect_to edit_profile_path(social_link.user.id), notice: 'link updated successfully'
+    else 
+      redirect_to edit_profile_path(social_link.user.id), alert: 'link cannot update'
+    end
+  end
+
 
   def destroy
     if @social_link.destroy
