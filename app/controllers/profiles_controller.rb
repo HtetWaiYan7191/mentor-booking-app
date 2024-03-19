@@ -23,7 +23,8 @@ class ProfilesController < ApplicationController
       redirect_to unauthenticated_root_path, notice: 'Profile was successfully updated'      
     else
       puts ' cannot update ' 
-      render 'pages/home', alert: 'Profile cannot be updated'
+      puts @profile.errors.full_messages
+      redirect_to unauthenticated_root_path, alert: 'Profile cannot updated'      
     end
   end
 
