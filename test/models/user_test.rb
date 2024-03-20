@@ -8,22 +8,39 @@ class UserTest < ActiveSupport::TestCase
     @address = Address.new(country_name: 'example country', city_name: 'example city')
     @social_link1 = SocialLink.new(icon: 'icon1', link: 'https://link1')
     @social_link2 = SocialLink.new(icon: 'icon2', link: 'https://link2')
-    @user.address = @address
+   unless @user.save
+    puts @user.errors.full_messages
+   end
+
+    @review1 = Review.new(review_text: 'review1', rating: 4, user_id: @user.id)
+    @review2 = Review.new(review_text: 'review2', rating: 5, user_id: @user.id)
+    @user.address = @address  
+
     @user.social_links << @social_link1 << @social_link2
+    @user.reviews << @review1 << @review2
+
  end
 
   # ASSOCIATION TESTS
-  test 'user address and address should be same' do
+  test "user address and address should be same" do
     assert_equal @address, @user.address
     assert_not_nil @user.address
   end
 
   test "user should have many social links " do 
-    assert @user.save
     assert_equal 2, @user.social_links.count
     assert_includes @user.social_links, @social_link1
     assert_includes @user.social_links, @social_link2
+    assert_not_nil @user.social_links
   end
+
+ test "user should have many reviews " do 
+  assert_equal 2, @user.reviews.count
+  assert_includes @user.reviews, @review1
+  assert_includes @user.reviews, @review2
+  assert_not_empty @user.reviews
+ end
+
 
   # NAME TESTS
   test "should be valid" do

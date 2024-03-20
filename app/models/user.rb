@@ -1,7 +1,7 @@
 class User < ApplicationRecord
 
     # enum role: {mentor: 0, mentee: 1}
-
+    after_save {self.name = name.downcase}
     has_one :address, dependent: :destroy
     accepts_nested_attributes_for :address
     has_many :social_links, dependent: :destroy
@@ -13,8 +13,8 @@ class User < ApplicationRecord
     has_many :booking_histories, through: :bookings
     has_many :booked_times, foreign_key: 'mentor_id', class_name: 'BookedTime'
 
-    validates :name, presence: true, allow_blank: false
-    validates :overview, length: {in: 10..1000}, allow_blank: false
+    validates :name, presence: true, allow_blank: false, length: {in: 2..30}
+    validates :overview, length: {in: 10..1000}, allow_nil: true
     validates :bio, length: {in: 6..500}, allow_nil: true
     validates :view_count, numericality: {only_integer: true}
     
