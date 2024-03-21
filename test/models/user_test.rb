@@ -5,19 +5,37 @@ class UserTest < ActiveSupport::TestCase
   # end
  def setup 
     @user = User.new(name: 'exampleName', overview: 'testOverview', bio: 'testBio')
+    @mentor = User.new(name: 'mentor', overview: 'I am metor', bio: 'Mentor, Teacher', role: 1 )
     @address = Address.new(country_name: 'example country', city_name: 'example city')
     @social_link1 = SocialLink.new(icon: 'icon1', link: 'https://link1')
     @social_link2 = SocialLink.new(icon: 'icon2', link: 'https://link2')
-   unless @user.save
-    puts @user.errors.full_messages
-   end
+    @booking_type1 = BookingType.new(name: 'simple', minutes: 30, payment: 5)
+    @booking_type2 = BookingType.new(name: 'pro', minutes: 60, payment: 10)
+    @user.save
+    @mentor.save
+    @address.save
+    @social_link1.save
+    @social_link2.save
+    @booking_type1.save
+    @booking_type2.save
 
-    @review1 = Review.new(review_text: 'review1', rating: 4, user_id: @user.id)
-    @review2 = Review.new(review_text: 'review2', rating: 5, user_id: @user.id)
+   @booking1 = Booking.new(booking_type_id: @booking_type1.id, mentor_id: @mentor.id, introduction_text: 'this is introduction text from mentee', session_name: 'Software development', mentee_id: @user.id, booking_datetime: DateTime.new(2024, 3, 25, 5, 30, 0))
+   @booking2 = Booking.new(booking_type_id: @booking_type2.id, mentor_id: @mentor.id, introduction_text: 'this is introduction text from mentee', session_name: 'Web development', mentee_id: @user.id, booking_datetime: DateTime.new(2024, 3, 27, 8, 30, 0))
+   @before_count = @mentor.booked_times.count
+    unless @booking1.save && @booking2.save 
+      puts "Failed to create bookings:"
+      puts @booking1.errors.full_messages
+      puts @booking2.errors.full_messages
+    end
+
+    @review1 = Review.new(review_text: 'review1', rating: 4, user_id: @mentor.id, reviewer_id: @user.id)
+    @review2 = Review.new(review_text: 'review2', rating: 5, user_id: @mentor.id, reviewer_id: @user.id)
+    @review1.save
+    @review2.save
+
     @user.address = @address  
-
     @user.social_links << @social_link1 << @social_link2
-    @user.reviews << @review1 << @review2
+    @mentor.reviews << @review1 << @review2
 
  end
 
@@ -34,12 +52,58 @@ class UserTest < ActiveSupport::TestCase
     assert_not_nil @user.social_links
   end
 
- test "user should have many reviews " do 
-  assert_equal 2, @user.reviews.count
-  assert_includes @user.reviews, @review1
-  assert_includes @user.reviews, @review2
-  assert_not_empty @user.reviews
- end
+  test "review cannot be created without reviewer" do 
+    @review1.reviewer_id = nil
+    assert_not @review1.valid?
+  end
+
+  test "mentor should have many received reviews " do 
+    assert_equal 2, @mentor.reviews.count
+    assert_includes @mentor.reviews, @review1
+    assert_includes @mentor.reviews, @review2
+    assert_not_empty @mentor.reviews
+  end
+
+  test 'user should have many given reviews ' do 
+    assert_equal 2 , @user.given_reviews.count
+    assert_includes @user.given_reviews, @review1
+    assert_includes @user.given_reviews, @review2
+    assert_not_empty @user.given_reviews
+  end
+  # ASSOCIATION TESTS FOR MENTORS 
+  test "mentor should valid" do 
+    assert @mentor.valid?
+    puts @mentor.errors.full_messages
+  end
+
+  test "mentor should have bookings " do
+    assert_equal 2, @mentor.mentor_bookings.count
+    assert_includes @mentor.mentor_bookings, @booking1
+    assert_includes @mentor.mentor_bookings, @booking2
+    assert_not_empty @mentor.mentor_bookings
+  end
+
+  test "user role should be mentor" do
+    assert_equal 1, @mentor.role
+  end
+
+  # BOOKING TYPE TESTS  
+  test "booking type  should be valid" do
+    assert @booking_type1.valid?, @booking_type1.errors.full_messages.inspect
+    assert @booking_type2.valid?, @booking_type2.errors.full_messages.inspect
+  end
+
+  # BOOKING TESTS 
+
+  test "after booking create booked_time should be created" do
+    assert_not_equal BookedTime.count, @before_count
+  end
+
+
+  test "booking should be exist in the database " do
+    assert Booking.exists?(@booking1.id)
+    assert Booking.exists?(@booking2.id)
+  end
 
 
   # NAME TESTS

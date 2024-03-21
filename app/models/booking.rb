@@ -21,14 +21,17 @@ class Booking < ApplicationRecord
     BookedTime.create(start_time: self.booking_datetime, end_time: self.booking_datetime + self.booking_type.minutes * 60, mentor_id: self.mentor_id)
   end
 
-  def booking_time_available
-    mentor = User.find(self.mentor_id)
-    conflicting_booked_times = mentor.booked_times.where('(start_time <= ? AND end_time >= ?) OR (start_time <= ? AND end_time >= ?)', self.booking_datetime, self.booking_datetime, self.booking_datetime + self.booking_type.minutes, self.booking_datetime + self.booking_type.minutes)
-  
-    if conflicting_booked_times.exists?
-      errors.add(:booking_datetime, 'Mentor is not available at that time')
+    def booking_time_available
+      mentor = User.find(self.mentor_id)
+      conflicting_booked_times = mentor.booked_times.any? do |bt|
+        self.booking_datetime >= bt.start_time && self.booking_datetime <= bt.end_time
+      end
+      # conflicting_booked_times = mentor.booked_times.where('(start_time <= ? AND end_time >= ?) OR (start_time >= ? AND end_time <= ?)', self.booking_datetime, self.booking_datetime, self.booking_datetime, self.booking_datetime + self.booking_type.minutes)
+    
+      if conflicting_booked_times
+        errors.add(:booking_datetime, 'Mentor is not available at that time')
+      end
     end
-  end
   
 
   # def create_booking_history
