@@ -47,7 +47,7 @@
                   <%= form.fields_for :social_links do |social_link| %>
                         <div class="flex items-center gap-x-5" >
                               <%= social_link.text_field :icon, class: 'btn-primary text-center w-[150px] mr-[2rem] ' %>
-                              <%= social_link.text_field :link, class: 'text-gray-500 border w-[200px] mr-[2rem] py-1 px-3 focus:outline-none', data: { edit_target: 'socialLink' } %>
+                              <%= social_link.text_field :link, readonly:true, class: 'text-gray-500 border w-[200px] mr-[2rem] py-1 px-3 focus:outline-none', data: { edit_target: 'socialLink' } %>
                                     <ul class="flex icon-container gap-x-4">
                                           <li>
                                                <%= link_to profile_social_link_path(profile_id: @profile.id, id: social_link.object.id), data: {turbo_method: :delete} do%> 

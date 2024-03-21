@@ -15,6 +15,7 @@ class AddSocialLinkTest < ActionDispatch::IntegrationTest
         follow_redirect!
         assert_not flash.empty?
     end
+
     test " invalid social link information " do
         get '/profiles/1/edit'
         assert_no_difference 'SocialLink.count' do
