@@ -8,11 +8,11 @@ class SocialLinksController < ApplicationController
     puts ' social link created '
     if @social_link.save
       flash[:notice] = "Social link added successfully"
-      redirect_to edit_profile_path(User.last.id)
+      redirect_to edit_profile_path(User.first.id)
     else 
       puts @social_link.errors.full_messages 
       flash[:alert] = @social_link.errors.full_messages.join(", ")
-      redirect_to edit_profile_path(User.last.id)
+      redirect_to edit_profile_path(User.first.id)
     end
   end
 
