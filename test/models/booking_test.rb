@@ -5,8 +5,8 @@ class BookingTest < ActiveSupport::TestCase
   #   assert true
   # end
   def setup
-    @user = User.new(name: 'exampleName', overview: 'testOverview', bio: 'testBio')
-    @mentor = User.new(name: 'mentor', overview: 'I am metor', bio: 'Mentor, Teacher', role: 1 )
+    @user = User.new(name: 'exampleName', overview: 'testOverview', bio: 'testBio', email: 'testemail@gmail.com', password: 'password')
+    @mentor = User.new(name: 'mentor', overview: 'I am metor', bio: 'Mentor, Teacher', role: 1 , email: 'mentor@gmail.com', password: 'password')
     @booking_type1 = BookingType.new(name: 'simple', minutes: 30, payment: 5)
     @booking_type2 = BookingType.new(name: 'pro', minutes: 60, payment: 10)
     @user.save

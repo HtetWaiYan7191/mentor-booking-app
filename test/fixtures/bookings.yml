@@ -1,19 +1,19 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  booking_type: one
-  mentor: one
-  mentee: one
-  introduction_text: MyText
-  booking_status: 1
-  session_name: MyString
-  booking_datetime: 2024-03-12 10:53:58
+# one:
+#   booking_type: one
+#   mentor: one
+#   mentee: one
+#   introduction_text: MyText
+#   booking_status: 1
+#   session_name: MyString
+#   booking_datetime: 2024-03-12 10:53:58
 
-two:
-  booking_type: two
-  mentor: two
-  mentee: two
-  introduction_text: MyText
-  booking_status: 1
-  session_name: MyString
-  booking_datetime: 2024-03-12 10:53:58
+# two:
+#   booking_type: two
+#   mentor: two
+#   mentee: two
+#   introduction_text: MyText
+#   booking_status: 1
+#   session_name: MyString
+#   booking_datetime: 2024-03-12 10:53:58

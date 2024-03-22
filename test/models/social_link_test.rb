@@ -5,7 +5,7 @@ class SocialLinkTest < ActiveSupport::TestCase
   #   assert true
   # end
   def setup
-    @user = User.new(name: 'exampleName', overview: 'testOverview', bio: 'testBio')
+    @user = User.new(name: 'exampleName', overview: 'testOverview', bio: 'testBio', email: 'testemail@gmail.com', password: 'password')
     @user.save
     @social_link1 = SocialLink.new(icon: 'icon1', link: 'https://link1', user_id: @user.id)
     @social_link1.save

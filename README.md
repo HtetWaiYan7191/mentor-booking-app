@@ -1,33 +1,64 @@
-# README
+# frozen_string_literal: true
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+class AddDeviseToUsers < ActiveRecord::Migration[7.1]
+  def self.up
+    change_table :users do |t|
+      ## Database authenticatable
+      t.string :email,              null: false, default: ""
+      t.string :encrypted_password, null: false, default: ""
 
-Things you may want to cover:
+      ## Recoverable
+      t.string   :reset_password_token
+      t.datetime :reset_password_sent_at
 
-* Ruby version
+      ## Rememberable
+      t.datetime :remember_created_at
 
-* System dependencies
+      ## Trackable
+      # t.integer  :sign_in_count, default: 0, null: false
+      # t.datetime :current_sign_in_at
+      # t.datetime :last_sign_in_at
+      # t.string   :current_sign_in_ip
+      # t.string   :last_sign_in_ip
 
-* Configuration
+      ## Confirmable
+      # t.string   :confirmation_token
+      # t.datetime :confirmed_at
+      # t.datetime :confirmation_sent_at
+      # t.string   :unconfirmed_email # Only if using reconfirmable
 
-* Database creation
+      ## Lockable
+      # t.integer  :failed_attempts, default: 0, null: false # Only if lock strategy is :failed_attempts
+      # t.string   :unlock_token # Only if unlock strategy is :email or :both
+      # t.datetime :locked_at
 
-* Database initialization
 
-* How to run the test suite
+      # Uncomment below if timestamps were not included in your original model.
+      # t.timestamps null: false
+    end
 
-* Services (job queues, cache servers, search engines, etc.)
+    add_index :users, :email,                unique: true
+    add_index :users, :reset_password_token, unique: true
+    # add_index :users, :confirmation_token,   unique: true
+    # add_index :users, :unlock_token,         unique: true
+  end
 
-* Deployment instructions
+  def self.down
+    # By default, we don't want to make any assumption about how to roll back a migration when your
+    # model already existed. Please edit below which fields you would like to remove in this migration.
+    raise ActiveRecord::IrreversibleMigration
+  end
+end
 
-* ...
-<%= form.fields_for :social_links, @profile.social_links do |social_link_form| %>
-                                                                  <button type="submit" data-edit-target="updateBtn" class="update-button hidden">
-                                                                        <i class='fas fa-check text-green-500 text-lg text-center cursor-pointer'></i>
-                                                                  </button>
-                                                            <% end %>
+ before_action :configure_permitted_parameters, if: :devise_controller?
 
-                                                            <%= form.fields_for :social_links, @profile.social_links do |social_link_form|%>
-                                                <%= social_link_form.text_field :link, readonly: true, class: 'text-gray-500 border w-[200px] mr-[2rem] py-1 px-3 focus:outline-none','data-edit-target': 'socialLink' %>
-                                          <% end %>
+    protected
+    def configure_permitted_parameters
+        devise_parameter_sanitizer.permit(:sign_up) do |user_params| 
+            user_params.permit(:name, :email, :password, :password_confirmation)
+        end
+
+        devise_parameter_sanitizer.permit(:sign_in) do |user_params| 
+            user_params.permit(:email, :password )
+        end
+    end

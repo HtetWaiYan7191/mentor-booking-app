@@ -4,8 +4,8 @@ class UserTest < ActiveSupport::TestCase
   #   assert true
   # end
  def setup 
-    @user = User.new(name: 'exampleName', overview: 'testOverview', bio: 'testBio')
-    @mentor = User.new(name: 'mentor', overview: 'I am metor', bio: 'Mentor, Teacher', role: 1 )
+    @user = User.new(name: 'exampleName', overview: 'testOverview', bio: 'testBio', email: 'testemail@gmail.com', password: 'password')
+    @mentor = User.new(name: 'mentor', overview: 'I am metor', bio: 'Mentor, Teacher', role: 1, email: 'mentor@email.com', password: 'password' )
     @address = Address.new(country_name: 'example country', city_name: 'example city')
     @social_link1 = SocialLink.new(icon: 'icon1', link: 'https://link1')
     @social_link2 = SocialLink.new(icon: 'icon2', link: 'https://link2')
@@ -43,6 +43,23 @@ class UserTest < ActiveSupport::TestCase
   test "user address and address should be same" do
     assert_equal @address, @user.address
     assert_not_nil @user.address
+  end
+
+  test 'when create a new user default address should be created' do
+    @user4 = User.new(name: 'exampleName', overview: 'testOverview', bio: 'testBio', email: 'user4@gmail.com', password: 'password')
+    assert_difference 'Address.count' do
+      @user4.save
+    end
+  end
+
+  test "user's address should be deleted when user is deleted" do
+    @user3 = User.create(name: 'exampleName', overview: 'testOverview', bio: 'testBio', email: 'user3@gmail.com', password: 'password')
+    @before_count = Address.count
+    @user3.destroy
+    assert_not_equal @before_count, Address.count
+    # assert_difference 'Address.count', -1 do
+    #   user.destroy
+    # end
   end
 
   test "user should have many social links " do 
@@ -108,7 +125,7 @@ class UserTest < ActiveSupport::TestCase
 
   # NAME TESTS
   test "should be valid" do
-    assert @user.valid?
+    assert @user.valid?, @user.errors.full_messages.inspect
   end
 
   test "name should not be blank" do
