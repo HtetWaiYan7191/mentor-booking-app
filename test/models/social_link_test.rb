@@ -5,14 +5,14 @@ class SocialLinkTest < ActiveSupport::TestCase
   #   assert true
   # end
   def setup
-    @user = User.new(name: 'exampleName', overview: 'testOverview', bio: 'testBio', email: 'testemail@gmail.com', password: 'password')
+    @user = users(:one)
     @user.save
-    @social_link1 = SocialLink.new(icon: 'icon1', link: 'https://link1', user_id: @user.id)
+    @social_link1 = social_links(:link_one)
     @social_link1.save
   end
   
   test "social link cannot be duplicated in the same user" do
-    duplicate_link = SocialLink.new(icon: 'icon1', link: 'https://link1', user_id: @user.id)
+    duplicate_link = SocialLink.new(icon: 'icon1', link: 'https://facebook.com', user_id: @user.id)
     assert_not duplicate_link.save , duplicate_link.errors.full_messages
   end
 

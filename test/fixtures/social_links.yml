@@ -1,11 +1,11 @@
-# # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-# one:
-#   user: one
-#   icon: MyString
-#   link: MyString
+link_one:
+  user: one
+  icon: MyString
+  link: https://facebook.com
 
-# two:
-#   user: two
-#   icon: MyString
-#   link: MyString
+link_two:
+  user: two
+  icon: MyString
+  link: https://instagram.com

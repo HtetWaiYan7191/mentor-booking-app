@@ -124,6 +124,12 @@ class UserTest < ActiveSupport::TestCase
 
 
   # NAME TESTS
+  test " user can create an account only filling name, email, password, and password_confirmation " do
+    test_user = User.new(name: 'htet', email: 'htet123@gmail.com', password: 'password', password_confirmation: 'password')
+    test_user.save
+    assert test_user.valid?
+  end
+
   test "should be valid" do
     assert @user.valid?, @user.errors.full_messages.inspect
   end
