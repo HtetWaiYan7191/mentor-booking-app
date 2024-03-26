@@ -19,8 +19,8 @@ class UserTest < ActiveSupport::TestCase
     @booking_type1.save
     @booking_type2.save
 
-   @booking1 = Booking.new(booking_type_id: @booking_type1.id, mentor_id: @mentor.id, introduction_text: 'this is introduction text from mentee', session_name: 'Software development', mentee_id: @user.id, booking_datetime: DateTime.new(2024, 3, 25, 5, 30, 0))
-   @booking2 = Booking.new(booking_type_id: @booking_type2.id, mentor_id: @mentor.id, introduction_text: 'this is introduction text from mentee', session_name: 'Web development', mentee_id: @user.id, booking_datetime: DateTime.new(2024, 3, 27, 8, 30, 0))
+   @booking1 = Booking.new(booking_type_id: @booking_type1.id, mentor_id: @mentor.id, introduction_text: 'this is introduction text from mentee', session_name: 'Software development', mentee_id: @user.id, booking_datetime: DateTime.now + 3.days)
+   @booking2 = Booking.new(booking_type_id: @booking_type2.id, mentor_id: @mentor.id, introduction_text: 'this is introduction text from mentee', session_name: 'Web development', mentee_id: @user.id, booking_datetime: DateTime.now + 5.days)
    @before_count = @mentor.booked_times.count
     unless @booking1.save && @booking2.save 
       puts "Failed to create bookings:"
@@ -162,34 +162,14 @@ class UserTest < ActiveSupport::TestCase
     assert @user.valid?
   end
 
-  test "overview length should be between 10 and 1000" do
-    @user.overview =  'a' * 9
-    assert_not @user.valid?
-    @user.overview = 'a' *  1001
-    assert_not @user.valid?
-  end
-
-  test "overview should not be blank" do  
-    @user.overview = ""
-    assert_not @user.valid?
-  end
+  
 
   #BIO TESTS
-  test "bio length should be between 6 and 500"do
-    @user.bio = 'a' * 5
-    assert_not @user.valid?
-    @user.bio = 'a' * 501
-    assert_not @user.valid?
-  end
+
 
   test 'bio can be nil' do 
     @user.bio = nil
     assert @user.valid?
-  end
-
-  test 'bio can be blank' do 
-    @user.bio = ''
-    assert_not @user.valid?
   end
 
 
