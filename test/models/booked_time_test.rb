@@ -1,4 +1,4 @@
-require "test_helper"
+require 'test_helper'
 
 class BookedTimeTest < ActiveSupport::TestCase
   # test "the truth" do
