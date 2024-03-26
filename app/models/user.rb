@@ -17,8 +17,8 @@ class User < ApplicationRecord
     has_many :booked_times, foreign_key: 'mentor_id', class_name: 'BookedTime', dependent: :destroy
 
     validates :name, presence: true, allow_blank: false, length: {in: 2..30}
-    validates :overview, length: {in: 10..1000}, allow_nil: true
-    validates :bio, length: {in: 6..500}, allow_nil: true
+    validates :overview, length: {in: 0..1000}, allow_nil: true
+    validates :bio, length: {in: 0..500}, allow_nil: true
     validates :view_count, numericality: {only_integer: true}
     
     after_create :add_default_address

@@ -3,82 +3,83 @@
   <section class="mt-8 home-profile">
     <h3>Customize Your Profile <%= @profile.name %> </h3>
     <div class="mt-10 form-container">
-      <%= form_with( model: @profile, url: profile_path(@profile), method: "patch") do |form| %>
-        <div class="flex items-center form-box gap-x-6 max-w-[60%]">
-              <%= form.label :name, "Name" , class:'min-w-[130px]'%>
-              <%= form.text_field :name, class:'input mx-0 flex-1   ring-0 focus:bg-transparent', placeholder: 'Name' %>
-        </div>
+            <%= form_with( model: @profile, url: profile_path(@profile), method: "patch") do |form| %>
+            <div class="flex items-center form-box gap-x-6 max-w-[60%]">
+                  <%= form.label :name, "Name" , class:'min-w-[130px]'%>
+                  <%= form.text_field :name, class:'input mx-0 flex-1   ring-0 focus:bg-transparent', placeholder: 'Name' %>
+            </div>
 
-        <div class="flex items-center mt-8 gap-x-6 form-box">
-              <%= form.label :role, "Role" , class:'min-w-[130px]'%>
-              <%= form.select :role, [["Mentee", 0], ["Mentor",1]], selected: @profile.role, class:' rounded-full ' %>
-        </div>
+            <div class="flex items-center mt-8 gap-x-6 form-box">
+                  <%= form.label :role, "Role" , class:'min-w-[130px]'%>
+                  <%= form.select :role, [["Mentee", 0], ["Mentor",1]], selected: @profile.role, class:' rounded-full ' %>
+            </div>
 
-        <div class="flex items-center mt-8 gap-x-6 form-box max-w-[60%]">
-              <%= form.label :bio, "Bio" , class:'min-w-[130px]'%>
-              <%= form.text_field :bio, class: 'input mx-0 flex-1   ring-0 focus:bg-transparent'  %>
-        </div>
+            <div class="flex items-center mt-8 gap-x-6 form-box max-w-[60%]">
+                  <%= form.label :bio, "Bio" , class:'min-w-[130px]'%>
+                  <%= form.text_field :bio, class: 'input mx-0 flex-1   ring-0 focus:bg-transparent'  %>
+            </div>
 
-        <div class="flex items-start mt-8 gap-x-6 form-box max-w-[60%]">
-              <%= form.label :overview, "About Me" , class:'min-w-[130px]'%>
-              <%= form.text_area :overview, class: 'rounded-md mx-0 flex-1  ring-0 focus:bg-transparent'  %>
-        </div>
+            <div class="flex items-start mt-8 gap-x-6 form-box max-w-[60%]">
+                  <%= form.label :overview, "About Me" , class:'min-w-[130px]'%>
+                  <%= form.text_area :overview, class: 'rounded-md mx-0 flex-1  ring-0 focus:bg-transparent'  %>
+            </div>
 
-        <div class="mt-10 address-container">
-          <h3>Address</h3>
-                <div class="flex items-center mt-8 gap-x-6 form-box max-w-[60%]">
-                      <%= form.label :address, "Country Name" , class:'min-w-[130px]'%>
-                      <%= form.fields_for :address, @profile.address do |address_form|%>
-                        <%= address_form.text_field :country_name, class: 'rounded-full'%>
-                      <% end %>
-                </div>
+            <div class="mt-10 address-container">
+                  <h3>Address</h3>
+                  <div class="flex items-center mt-8 gap-x-6 form-box max-w-[60%]">
+                        <%= form.label :address, "Country Name" , class:'min-w-[130px]'%>
+                        <%= form.fields_for :address, @profile.address do |address_form|%>
+                              <%= address_form.text_field :country_name, class: 'rounded-full'%>
+                        <% end %>
+                  </div>
 
-                <div class="flex items-center mt-8 gap-x-6 form-box max-w-[60%]">
-                      <%= form.label :address, "City Name" , class:'min-w-[130px]'%>
-                      <%= form.fields_for :address, @profile.address do |address_form|%>
-                        <%= address_form.text_field :city_name, class: 'rounded-full'%>
-                      <% end %>
-                </div>
-        </div>
+                  <div class="flex items-center mt-8 gap-x-6 form-box max-w-[60%]">
+                        <%= form.label :address, "City Name" , class:'min-w-[130px]'%>
+                        <%= form.fields_for :address, @profile.address do |address_form|%>
+                              <%= address_form.text_field :city_name, class: 'rounded-full'%>
+                        <% end %>
+                  </div>
+            </div>
 
-        <div class="mt-10 social-link-container ">
-            <h3>Social Links</h3>
-            <div class="flex flex-col gap-y-6 mt-8  form-box max-w-[60%]" data-controller="edit" >
-            <% if  @social_links.empty? %>
-                  <h2>No social Link</h2>
-            <% end %>
-                  <%= form.fields_for :social_links do |social_link| %>
-                        <div class="flex items-center gap-x-5" >
-                              <%= social_link.text_field :icon, class: 'btn-primary text-center w-[150px] mr-[2rem] ' %>
-                              <%= social_link.text_field :link, readonly:true, class: 'text-gray-500 border w-[200px] mr-[2rem] py-1 px-3 focus:outline-none', data: { edit_target: 'socialLink' } %>
-                                    <ul class="flex icon-container gap-x-4">
-                                          <li>
-                                               <%= link_to profile_social_link_path(profile_id: @profile.id, id: social_link.object.id), data: {turbo_method: :delete} do%> 
-                                                      <i class='text-lg text-center text-red-500 fas fa-trash-can hover:text-red-400'></i>
+                              <div class="mt-10 social-link-container ">
+                                    <h3>Social Links</h3>
+                                    <div class="flex flex-col gap-y-6 mt-8  form-box max-w-[60%]" data-controller="edit" >
+                                          <% if  @social_links.empty? %>
+                                                <h2>No social Link</h2>
+                                          <% end %>
+                                                <%= form.fields_for :social_links do |social_link| %>
+                                                      <div class="flex items-center gap-x-5" >
+                                                            <%= social_link.text_field :icon, class: 'btn-primary text-center w-[150px] mr-[2rem] ' %>
+                                                            <%= social_link.text_field :link, readonly:true, class: 'text-gray-500 border w-[200px] mr-[2rem] py-1 px-3 focus:outline-none', data: { edit_target: 'socialLink' } %>
+                                                                  <ul class="flex icon-container gap-x-4">
+                                                                        <li>
+                                                                        <%= link_to profile_social_link_path(profile_id: @profile.id, id: social_link.object.id), data: {turbo_method: :delete} do%> 
+                                                                                    <i class='text-lg text-center text-red-500 fas fa-trash-can hover:text-red-400'></i>
+                                                                              <% end %>
+
+                                                                        </li>
+                                                                        <li data-edit-target="editBtn"  data-action="click->edit#makeInputWriteable" data-index="<%=social_link.index%> " >
+                                                                              <i class='text-lg text-center cursor-pointer fas fa-pen' ></i>
+                                                                        </li>
+                                                                        <li data-edit-target="updateBtn" data-action="click->edit#updateLink"  class="hidden update-button" data-index="<%=social_link.index%>">
+                                                                              <i class='text-lg text-center text-green-500 cursor-pointer fas fa-check'></i>
+                                                                        </li>
+                                                                  </ul>
+                                                      </div>
                                                 <% end %>
-
-                                          </li>
-                                          <li data-edit-target="editBtn"  data-action="click->edit#makeInputWriteable" data-index="<%=social_link.index%> " >
-                                                 <i class='text-lg text-center cursor-pointer fas fa-pen' ></i>
-                                          </li>
-                                          <li data-edit-target="updateBtn" data-action="click->edit#updateLink"  class="hidden update-button" data-index="<%=social_link.index%>">
-                                                <i class='text-lg text-center text-green-500 cursor-pointer fas fa-check'></i>
-                                          </li>
-                                    </ul>
-                        </div>
-                  <% end %>
-            </div>
+                                    </div>
+                              </div>
+                               <div class="py-6 submit-btn">
+                  <%= form.submit "Save", class: 'btn-primary py-1 px-3 cursor-pointer hover:bg-yellow-500/60'%>
                   </div>
-                  </div>
-                  <%# </div> form container %>
-            <div class="py-6 submit-btn">
-                <%= form.submit "Save", class: 'btn-primary py-1 px-3 cursor-pointer'%>
-            </div>
       </div>
-                     
-    </div>
-      <div>
-      <% end %>
+                        <%# </div> form container %>
+                 
+            </div>
+                        
+      </div>
+            <div>
+            <% end %>
       <h3 class="mb-4 font-semibold">Add Social Link</h3>
                   <%= form_with(model: @social_link, url: profile_social_links_path(profile_id: @profile.id), method: 'post') do |social_link_form| %>
                         <div class="flex gap-x-6">
