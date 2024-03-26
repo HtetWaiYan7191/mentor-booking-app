@@ -37,4 +37,14 @@ class SocialLinksControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_not flash.empty?
   end
+
+    test 'should delete the social link ' do
+        social_link = SocialLink.last
+        assert_difference 'SocialLink.count', -1 do
+            delete profile_social_link_path(profile_id: @user.id, id: social_link.id)
+        end
+        assert_redirected_to edit_profile_path(@user.id)
+        follow_redirect!
+        assert_not flash.empty?
+    end
 end
