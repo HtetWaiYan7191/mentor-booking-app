@@ -5,14 +5,15 @@ class SocialLinksController < ApplicationController
 
   def create
     @social_link = SocialLink.new(social_link_params)
-    puts ' social link created '
     if @social_link.save
+      puts ' social link created '
       flash[:notice] = "Social link added successfully"
-      redirect_to edit_profile_path(User.first.id)
+      redirect_to edit_profile_path(current_user.id)
     else 
+      puts ' social link cannot be created '
       puts @social_link.errors.full_messages 
       flash[:alert] = @social_link.errors.full_messages.join(", ")
-      redirect_to edit_profile_path(User.first.id)
+      redirect_to edit_profile_path(current_user.id)
     end
   end
 
