@@ -44,6 +44,9 @@
         <div class="mt-10 social-link-container ">
             <h3>Social Links</h3>
             <div class="flex flex-col gap-y-6 mt-8  form-box max-w-[60%]" data-controller="edit" >
+            <% if  @social_links.empty? %>
+                  <h2>No social Link</h2>
+            <% end %>
                   <%= form.fields_for :social_links do |social_link| %>
                         <div class="flex items-center gap-x-5" >
                               <%= social_link.text_field :icon, class: 'btn-primary text-center w-[150px] mr-[2rem] ' %>

@@ -15,6 +15,7 @@ class ProfilesController < ApplicationController
 
   def edit 
     @social_link = SocialLink.new
+    @social_links = @profile.social_links
   end
 
   def update
