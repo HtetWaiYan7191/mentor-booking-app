@@ -1,28 +1,28 @@
 <%= render "layouts/home_page_layout" do %>
   <div class="home-header">
-    <h2 class="font-semibold text-2xl "> Welcome <%= current_user&.name%> 👋 </h2>
-    <span>You have no upcoming seessions </span>
+    <h2 class="font-semibold text-2xl">Welcome <%= current_user&.name %> 👋</h2>
+    <span>You have no upcoming sessions</span>
   </div>
-
   <div class="popular-mentor-container mt-10">
     <h2 class="font-semibold text-2xl">Popular</h2>
     <ul class="popular-mentor-card-container grid grid-cols-3">
-    <% @mentors.each do |mentor| %>
+      <% @mentors.each do |mentor| %>
         <li class="border w-full mentor-card mt-4 p-5">
-          <%= image_tag('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', alt: "mentor-profile", class: 'object-cover w-full h-[250px] rounded-lg') %>
-          <h2 class="font-semibold text-lg mt-4"><%= mentor.name %></h2>
-          <h2 class="text-stone-500"><%= mentor.bio %></h2>
-          <div class="social-link-container ">
-            <% mentor.social_links.each  do |social_link|  %>
-              <%= link_to "#{social_link.icon}", social_link.link, class: 'hover:underline hover:text-blue-500', target: "_blank" %>
-            <% end %>
-          </div>
-          <div class="book-btn-container mt-4">
-            <button class="btn-primary">Book</button>
-          </div>
+          <%= link_to profile_path(id: mentor.id) do %>
+            <%= image_tag 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', alt: "mentor-profile", class: 'object-cover w-full h-[250px] rounded-lg' %>
+            <h2 class="font-semibold text-lg mt-4"><%= mentor.name %></h2>
+            <h2 class="text-stone-500"><%= mentor.bio %></h2>
+            <div class="social-link-container">
+              <% mentor.social_links.each do |social_link| %>
+                <%= link_to "#{social_link.icon}", social_link.link, class: 'hover:underline hover:text-blue-500', target: "_blank" %>
+              <% end %>
+            </div>
+            <div class="book-btn-container mt-4">
+              <button class="btn-primary">Book</button>
+            </div>
+          <% end %>
         </li>
-    <% end %>
+      <% end %>
     </ul>
   </div>
-
 <% end %>

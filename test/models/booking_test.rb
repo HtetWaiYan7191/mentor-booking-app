@@ -17,9 +17,9 @@ class BookingTest < ActiveSupport::TestCase
     @booking_type2.save
     @before_count = BookedTime.count
     @booking1 = Booking.new(booking_type_id: @booking_type1.id, mentor_id: @mentor.id,
-                            introduction_text: 'this is introduction text from mentee', session_name: 'Software development', mentee_id: @user.id, booking_datetime: DateTime.new(2024, 3, 25, 5, 30, 0))
+                            introduction_text: 'this is introduction text from mentee', session_name: 'Software development', mentee_id: @user.id, booking_datetime: DateTime.now + 3.days)
     @booking2 = Booking.new(booking_type_id: @booking_type2.id, mentor_id: @mentor.id,
-                            introduction_text: 'this is introduction text from mentee', session_name: 'Web development', mentee_id: @user.id, booking_datetime: DateTime.new(2024, 3, 27, 8, 30, 0))
+                            introduction_text: 'this is introduction text from mentee', session_name: 'Web development', mentee_id: @user.id, booking_datetime: DateTime.now + 5.days)
     @booking1.save
     @booking2.save
   end
