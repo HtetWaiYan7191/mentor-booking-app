@@ -1,3 +1,23 @@
-<%= render 'layouts/home_page_layout' do%>
-    <p>show page <%=  @profile.name %></p>
-<% end %>
+<section class="profile-detail-section content-layout ml-auto w-[80%]">
+  <div class="bg-img w-full h-[300px] relative bg-teal-500">
+    <div class="profile-container w-full flex absolute -bottom-40 left-0 items-center gap-x-4 ms-4 mb-4 z-100">
+      <figure>
+        <%= image_tag 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', alt: "mentor-profile", class: 'object-cover w-[200px] h-[200px] rounded-full' %>
+      </figure>
+      <div class="profile-header-info flex flex-col gap-y-2">
+        <h2 class=" capitalize text-2xl font-semibold "><%= @profile.name %></h2>
+        <p class="font-semibold"><%= @profile.bio %></p>
+      </div>
+      <div class="ml-auto me-8" data-controller="copy">
+        <button class="btn-primary" data-copy-target="copyBtn" data-action="click->copy#copyUrl">Share Link</button>
+      </div>
+    </div>
+  </div>
+  <div class="tag-container mt-[13rem] mx-auto flex gap-x-4 ">
+    <button>Overview</button>
+    <button>Reviews <%= @profile.reviews.count%></button>
+    <button>Available</button>
+  </div>
+  <div class="profile-content-container">
+  </div>
+</section>

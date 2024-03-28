@@ -7,8 +7,6 @@ export default class extends Controller {
         const index = parseInt(editBtn.dataset.index); // Parse index to integer
         const socialLinkTarget = this.socialLinkTargets[index];
         const updateBtnTarget = this.updateBtnTargets[index];
-        console.log(socialLinkTarget)
-        console.log(updateBtnTarget);
         if (socialLinkTarget) {
             console.log('inside if ')
             editBtn.classList.add("hidden");
@@ -29,9 +27,7 @@ export default class extends Controller {
     
 
     connect() {
-        console.log('connect');
-        console.log(this.updateBtnTargets[1])
-        console.log(this.constructor.targets); // Use this.constructor.targets instead of targets
+// Use this.constructor.targets instead of targets
     }
 
 }

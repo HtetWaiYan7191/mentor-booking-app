@@ -3,7 +3,9 @@
 @tailwind utilities;
 @import "font-awesome";
 
-
+body, html {
+ 
+}
 
 @layer components {
   .btn-primary {

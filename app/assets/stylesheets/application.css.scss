@@ -14,4 +14,20 @@
  *= require_self
  */
  @import "font-awesome";
+ $btn-color: #14B8A6;
+ .tag-container {
+    border-bottom: 1px solid rgb(135, 135, 135);
+    width: 95%;
+    button {
+        font-size: 18px;
+        font-weight: 500;
+        color: $btn-color;
+        border-bottom: 2px solid transparent;
+    }
 
+    button:hover {
+        border-bottom: 2px solid $btn-color; /* Change to your desired color */
+    }
+
+
+ }
